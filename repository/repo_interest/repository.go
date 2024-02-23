@@ -12,6 +12,7 @@ type Repository struct {
 
 func NewRepository(db *gorm.DB, logger *logrus.Logger) *Repository {
 	return &Repository{
-		db: db,
+		db:     db,
+		logger: logger,
 	}
 }
