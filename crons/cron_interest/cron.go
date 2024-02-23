@@ -7,8 +7,9 @@ import (
 )
 
 type CronInterest struct {
-	logger       *logrus.Logger
-	repoInterest domain.RepositoryInterest
+	logger                  *logrus.Logger
+	repoInterest            domain.RepositoryInterest
+	CronNameInterestExpired string
 }
 
 func NewCronInterest(logger *logrus.Logger, repoInterest domain.RepositoryInterest) *CronInterest {
