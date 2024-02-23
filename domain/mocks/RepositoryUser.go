@@ -99,6 +99,43 @@ func (_m *RepositoryUser) DetailByUsername(ctx context.Context, username string)
 	return r0, r1
 }
 
+// SearchPartner provides a mock function with given fields: filter
+func (_m *RepositoryUser) SearchPartner(filter model.FilterInterest) ([]model.User, int, error) {
+	ret := _m.Called(filter)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SearchPartner")
+	}
+
+	var r0 []model.User
+	var r1 int
+	var r2 error
+	if rf, ok := ret.Get(0).(func(model.FilterInterest) ([]model.User, int, error)); ok {
+		return rf(filter)
+	}
+	if rf, ok := ret.Get(0).(func(model.FilterInterest) []model.User); ok {
+		r0 = rf(filter)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]model.User)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(model.FilterInterest) int); ok {
+		r1 = rf(filter)
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	if rf, ok := ret.Get(2).(func(model.FilterInterest) error); ok {
+		r2 = rf(filter)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
 // NewRepositoryUser creates a new instance of RepositoryUser. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewRepositoryUser(t interface {

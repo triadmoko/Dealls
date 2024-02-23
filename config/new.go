@@ -1,6 +1,8 @@
 package config
 
 import (
+	"app/pkg"
+
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -18,5 +20,6 @@ func NewConfig() *Config {
 
 	return &Config{
 		Database: db,
+		Logger:   pkg.NewLogger(),
 	}
 }

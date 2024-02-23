@@ -7,5 +7,6 @@ import (
 
 type RepositoryInterest interface {
 	Create(ctx context.Context, interest model.Interest) (model.Interest, error)
-	SearchPartner(filter model.FilterInterest) ([]model.User, int, error)
+	ListPartnerSwipe(filter model.FilterInterest) ([]string, error)
+	DeletePartnerExpired() error
 }

@@ -7,6 +7,7 @@
 package injector
 
 import (
+	"app/crons/cron_interest"
 	"app/domain"
 	"app/repository/repo_interest"
 	"app/repository/repo_user"
@@ -16,6 +17,14 @@ import (
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
+
+// Injectors from cron_interest.go:
+
+func InitializedCronInterest(logger *logrus.Logger, db *gorm.DB) *cron_interest.CronInterest {
+	repository := repo_interest.NewRepository(db, logger)
+	cronInterest := cron_interest.NewCronInterest(logger, repository)
+	return cronInterest
+}
 
 // Injectors from injector_auth.go:
 
@@ -28,7 +37,7 @@ func InitializedAuth(db *gorm.DB, logger *logrus.Logger) *service_auth.ServiceAu
 // Injectors from injector_partner.go:
 
 func InitializedPartner(db *gorm.DB, logger *logrus.Logger) *service_partner.ServicePartner {
-	repository := repo_interest.NewRepository(db)
+	repository := repo_interest.NewRepository(db, logger)
 	repo_userRepository := repo_user.NewRepository(db)
 	servicePartner := service_partner.NewService(logger, repository, repo_userRepository)
 	return servicePartner

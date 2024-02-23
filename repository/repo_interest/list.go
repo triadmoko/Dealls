@@ -5,31 +5,19 @@ import (
 	"app/pkg"
 )
 
-func (r *Repository) SearchPartner(filter model.FilterInterest) ([]model.User, int, error) {
+func (r *Repository) ListPartnerSwipe(filter model.FilterInterest) ([]string, error) {
 	var (
-		users     []model.User
-		args      []any
-		where     string = "deleted_at IS NULL "
-		totalRows int64
+		userIDs []string
+		args    []any
+		where   string = "deleted_at IS NULL "
 	)
-
-	if filter.Gender != "" {
-		where, args = pkg.SQLXAndMatch(where, args, "gender", filter.Gender)
-	}
-	if len(filter.InterestUserID) > 0 {
-		where, args = pkg.SQLXAndNotIn(where, args, "id", filter.InterestUserID)
+	if filter.UserID != "" {
+		where, args = pkg.SQLXAndMatch(where, args, "user_id", filter.UserID)
 	}
 
-	err := r.db.Scopes(
-		pkg.Paginate(filter.Offset, filter.PerPage, filter.GetSort(), r.db)).
-		Where(where, args...).
-		Find(&users).Error
+	err := r.db.Model(&model.Interest{}).Where(where, args...).Pluck("interest_user_id", &userIDs).Error
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
-
-	if err := r.db.Model([]model.User{}).Where(where, args...).Count(&totalRows).Error; err != nil {
-		return nil, 0, err
-	}
-	return users, int(totalRows), nil
+	return userIDs, nil
 }

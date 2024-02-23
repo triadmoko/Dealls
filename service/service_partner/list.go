@@ -26,15 +26,26 @@ func (s *ServicePartner) SearchPartner(ctx context.Context, req *connect.Request
 		return nil, connect.NewError(connect.CodeInternal, constant.ErrInternalServer)
 	}
 	gender := s.compareGender(userv1.GENDER_value[user.Gender])
+
+	notUser, err := s.repoPartner.ListPartnerSwipe(model.FilterInterest{
+		UserID: user.ID,
+	})
+	if err != nil {
+		s.logger.Error("s.repoPartner.ListPartnerSwipe", err)
+		return nil, connect.NewError(connect.CodeInternal, constant.ErrInternalServer)
+	}
+
 	pagination := pkg.PaginationBuilder(int(req.Msg.PerPage), int(req.Msg.Page))
 	filter := model.FilterInterest{
-		UserID:  user.ID,
-		PerPage: pagination.PerPage,
-		Offset:  pagination.Offset,
-		Page:    pagination.Page,
-		Gender:  gender,
+		UserID:         user.ID,
+		PerPage:        pagination.PerPage,
+		Offset:         pagination.Offset,
+		Page:           pagination.Page,
+		Gender:         gender,
+		InterestUserID: notUser,
 	}
-	results, total, err := s.repoPartner.SearchPartner(filter)
+
+	results, total, err := s.repoUser.SearchPartner(filter)
 	if err != nil {
 		s.logger.Error("s.repoPartner.SearchPartner", err)
 		return nil, connect.NewError(connect.CodeInternal, constant.ErrInternalServer)
@@ -47,7 +58,7 @@ func (s *ServicePartner) SearchPartner(ctx context.Context, req *connect.Request
 		TotalPage: int32(math.Ceil(float64(total) / float64(pagination.PerPage))),
 		Total:     int32(total),
 	}
-	
+
 	return &connect.Response[partnerv1.ResponseSearchPartner]{
 		Msg: &partnerv1.ResponseSearchPartner{
 			Users:      partners,
