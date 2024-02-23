@@ -24,7 +24,7 @@ message ResponseSwipePartner {
     bool is_interest = 2;
 }
 
-service PartnerService {
+service ServicePartner {
     rpc SearchPartner(RequestSearchPartner) returns (ResponseSearchPartner) {}
     rpc SwipePartner(RequestSwipePartner) returns (ResponseSwipePartner);
 }

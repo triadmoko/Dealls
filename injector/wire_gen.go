@@ -8,8 +8,10 @@ package injector
 
 import (
 	"app/domain"
+	"app/repository/repo_interest"
 	"app/repository/repo_user"
 	"app/service/service_auth"
+	"app/service/service_partner"
 	"github.com/google/wire"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
@@ -23,10 +25,27 @@ func InitializedAuth(db *gorm.DB, logger *logrus.Logger) *service_auth.ServiceAu
 	return serviceAuth
 }
 
+// Injectors from injector_partner.go:
+
+func InitializedPartner(db *gorm.DB, logger *logrus.Logger) *service_partner.ServicePartner {
+	repository := repo_interest.NewRepository(db)
+	repo_userRepository := repo_user.NewRepository(db)
+	servicePartner := service_partner.NewService(logger, repository, repo_userRepository)
+	return servicePartner
+}
+
 // injector_auth.go:
 
 var newSetUserRepository = wire.NewSet(repo_user.NewRepository, wire.Bind(
 	new(domain.RepositoryUser),
 	new(*repo_user.Repository),
+),
+)
+
+// injector_partner.go:
+
+var newSetInterestRepository = wire.NewSet(repo_interest.NewRepository, wire.Bind(
+	new(domain.RepositoryInterest),
+	new(*repo_interest.Repository),
 ),
 )

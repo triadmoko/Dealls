@@ -21,8 +21,8 @@ import (
 const _ = connect.IsAtLeastVersion1_13_0
 
 const (
-	// PartnerServiceName is the fully-qualified name of the PartnerService service.
-	PartnerServiceName = "partner.v1.PartnerService"
+	// ServicePartnerName is the fully-qualified name of the ServicePartner service.
+	ServicePartnerName = "partner.v1.ServicePartner"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -33,111 +33,111 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// PartnerServiceSearchPartnerProcedure is the fully-qualified name of the PartnerService's
+	// ServicePartnerSearchPartnerProcedure is the fully-qualified name of the ServicePartner's
 	// SearchPartner RPC.
-	PartnerServiceSearchPartnerProcedure = "/partner.v1.PartnerService/SearchPartner"
-	// PartnerServiceSwipePartnerProcedure is the fully-qualified name of the PartnerService's
+	ServicePartnerSearchPartnerProcedure = "/partner.v1.ServicePartner/SearchPartner"
+	// ServicePartnerSwipePartnerProcedure is the fully-qualified name of the ServicePartner's
 	// SwipePartner RPC.
-	PartnerServiceSwipePartnerProcedure = "/partner.v1.PartnerService/SwipePartner"
+	ServicePartnerSwipePartnerProcedure = "/partner.v1.ServicePartner/SwipePartner"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
 var (
-	partnerServiceServiceDescriptor             = v1.File_proto_partner_v1_partner_proto.Services().ByName("PartnerService")
-	partnerServiceSearchPartnerMethodDescriptor = partnerServiceServiceDescriptor.Methods().ByName("SearchPartner")
-	partnerServiceSwipePartnerMethodDescriptor  = partnerServiceServiceDescriptor.Methods().ByName("SwipePartner")
+	servicePartnerServiceDescriptor             = v1.File_proto_partner_v1_partner_proto.Services().ByName("ServicePartner")
+	servicePartnerSearchPartnerMethodDescriptor = servicePartnerServiceDescriptor.Methods().ByName("SearchPartner")
+	servicePartnerSwipePartnerMethodDescriptor  = servicePartnerServiceDescriptor.Methods().ByName("SwipePartner")
 )
 
-// PartnerServiceClient is a client for the partner.v1.PartnerService service.
-type PartnerServiceClient interface {
+// ServicePartnerClient is a client for the partner.v1.ServicePartner service.
+type ServicePartnerClient interface {
 	SearchPartner(context.Context, *connect.Request[v1.RequestSearchPartner]) (*connect.Response[v1.ResponseSearchPartner], error)
 	SwipePartner(context.Context, *connect.Request[v1.RequestSwipePartner]) (*connect.Response[v1.ResponseSwipePartner], error)
 }
 
-// NewPartnerServiceClient constructs a client for the partner.v1.PartnerService service. By
+// NewServicePartnerClient constructs a client for the partner.v1.ServicePartner service. By
 // default, it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses,
 // and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the
 // connect.WithGRPC() or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewPartnerServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) PartnerServiceClient {
+func NewServicePartnerClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) ServicePartnerClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	return &partnerServiceClient{
+	return &servicePartnerClient{
 		searchPartner: connect.NewClient[v1.RequestSearchPartner, v1.ResponseSearchPartner](
 			httpClient,
-			baseURL+PartnerServiceSearchPartnerProcedure,
-			connect.WithSchema(partnerServiceSearchPartnerMethodDescriptor),
+			baseURL+ServicePartnerSearchPartnerProcedure,
+			connect.WithSchema(servicePartnerSearchPartnerMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 		swipePartner: connect.NewClient[v1.RequestSwipePartner, v1.ResponseSwipePartner](
 			httpClient,
-			baseURL+PartnerServiceSwipePartnerProcedure,
-			connect.WithSchema(partnerServiceSwipePartnerMethodDescriptor),
+			baseURL+ServicePartnerSwipePartnerProcedure,
+			connect.WithSchema(servicePartnerSwipePartnerMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
-// partnerServiceClient implements PartnerServiceClient.
-type partnerServiceClient struct {
+// servicePartnerClient implements ServicePartnerClient.
+type servicePartnerClient struct {
 	searchPartner *connect.Client[v1.RequestSearchPartner, v1.ResponseSearchPartner]
 	swipePartner  *connect.Client[v1.RequestSwipePartner, v1.ResponseSwipePartner]
 }
 
-// SearchPartner calls partner.v1.PartnerService.SearchPartner.
-func (c *partnerServiceClient) SearchPartner(ctx context.Context, req *connect.Request[v1.RequestSearchPartner]) (*connect.Response[v1.ResponseSearchPartner], error) {
+// SearchPartner calls partner.v1.ServicePartner.SearchPartner.
+func (c *servicePartnerClient) SearchPartner(ctx context.Context, req *connect.Request[v1.RequestSearchPartner]) (*connect.Response[v1.ResponseSearchPartner], error) {
 	return c.searchPartner.CallUnary(ctx, req)
 }
 
-// SwipePartner calls partner.v1.PartnerService.SwipePartner.
-func (c *partnerServiceClient) SwipePartner(ctx context.Context, req *connect.Request[v1.RequestSwipePartner]) (*connect.Response[v1.ResponseSwipePartner], error) {
+// SwipePartner calls partner.v1.ServicePartner.SwipePartner.
+func (c *servicePartnerClient) SwipePartner(ctx context.Context, req *connect.Request[v1.RequestSwipePartner]) (*connect.Response[v1.ResponseSwipePartner], error) {
 	return c.swipePartner.CallUnary(ctx, req)
 }
 
-// PartnerServiceHandler is an implementation of the partner.v1.PartnerService service.
-type PartnerServiceHandler interface {
+// ServicePartnerHandler is an implementation of the partner.v1.ServicePartner service.
+type ServicePartnerHandler interface {
 	SearchPartner(context.Context, *connect.Request[v1.RequestSearchPartner]) (*connect.Response[v1.ResponseSearchPartner], error)
 	SwipePartner(context.Context, *connect.Request[v1.RequestSwipePartner]) (*connect.Response[v1.ResponseSwipePartner], error)
 }
 
-// NewPartnerServiceHandler builds an HTTP handler from the service implementation. It returns the
+// NewServicePartnerHandler builds an HTTP handler from the service implementation. It returns the
 // path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewPartnerServiceHandler(svc PartnerServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	partnerServiceSearchPartnerHandler := connect.NewUnaryHandler(
-		PartnerServiceSearchPartnerProcedure,
+func NewServicePartnerHandler(svc ServicePartnerHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	servicePartnerSearchPartnerHandler := connect.NewUnaryHandler(
+		ServicePartnerSearchPartnerProcedure,
 		svc.SearchPartner,
-		connect.WithSchema(partnerServiceSearchPartnerMethodDescriptor),
+		connect.WithSchema(servicePartnerSearchPartnerMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	partnerServiceSwipePartnerHandler := connect.NewUnaryHandler(
-		PartnerServiceSwipePartnerProcedure,
+	servicePartnerSwipePartnerHandler := connect.NewUnaryHandler(
+		ServicePartnerSwipePartnerProcedure,
 		svc.SwipePartner,
-		connect.WithSchema(partnerServiceSwipePartnerMethodDescriptor),
+		connect.WithSchema(servicePartnerSwipePartnerMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/partner.v1.PartnerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/partner.v1.ServicePartner/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case PartnerServiceSearchPartnerProcedure:
-			partnerServiceSearchPartnerHandler.ServeHTTP(w, r)
-		case PartnerServiceSwipePartnerProcedure:
-			partnerServiceSwipePartnerHandler.ServeHTTP(w, r)
+		case ServicePartnerSearchPartnerProcedure:
+			servicePartnerSearchPartnerHandler.ServeHTTP(w, r)
+		case ServicePartnerSwipePartnerProcedure:
+			servicePartnerSwipePartnerHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedPartnerServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedPartnerServiceHandler struct{}
+// UnimplementedServicePartnerHandler returns CodeUnimplemented from all methods.
+type UnimplementedServicePartnerHandler struct{}
 
-func (UnimplementedPartnerServiceHandler) SearchPartner(context.Context, *connect.Request[v1.RequestSearchPartner]) (*connect.Response[v1.ResponseSearchPartner], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("partner.v1.PartnerService.SearchPartner is not implemented"))
+func (UnimplementedServicePartnerHandler) SearchPartner(context.Context, *connect.Request[v1.RequestSearchPartner]) (*connect.Response[v1.ResponseSearchPartner], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("partner.v1.ServicePartner.SearchPartner is not implemented"))
 }
 
-func (UnimplementedPartnerServiceHandler) SwipePartner(context.Context, *connect.Request[v1.RequestSwipePartner]) (*connect.Response[v1.ResponseSwipePartner], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("partner.v1.PartnerService.SwipePartner is not implemented"))
+func (UnimplementedServicePartnerHandler) SwipePartner(context.Context, *connect.Request[v1.RequestSwipePartner]) (*connect.Response[v1.ResponseSwipePartner], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("partner.v1.ServicePartner.SwipePartner is not implemented"))
 }
