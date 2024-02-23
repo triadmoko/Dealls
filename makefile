@@ -5,6 +5,8 @@ gen-proto:
 wire :
 	wire gen app/injector
 
+test :
+	go test -v ./...
 gow :
 	@echo "Run server"
 	export \
