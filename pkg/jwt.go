@@ -11,8 +11,8 @@ import (
 )
 
 type MetaToken struct {
-	ID    string `json:"id"`
-	Exp   string `json:"exp"`
+	ID  string `json:"id"`
+	Exp string `json:"exp"`
 }
 
 type AccessToken struct {

@@ -21,8 +21,7 @@ message RegisterRequest{
       user.v1.GENDER gender = 3;
       string name = 4;
       string profile = 5;
-      string status = 6;
-      bool premium = 7;
+      bool premium = 6;
 }
 
 message RegisterResponse{
@@ -34,6 +33,7 @@ message RegisterResponse{
       string profile = 6;
       string status = 7;
       bool premium = 8;
+      user.v1.GENDER Gender = 9;
 }
 
 service ServiceAuth {

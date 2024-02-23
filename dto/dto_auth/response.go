@@ -2,6 +2,7 @@ package dto_auth
 
 import (
 	authv1 "app/gen/proto/auth/v1"
+	userv1 "app/gen/proto/user/v1"
 	"app/model"
 
 	"connectrpc.com/connect"
@@ -18,6 +19,7 @@ func RegisterResponse(user model.User) *connect.Response[authv1.RegisterResponse
 			Profile:   user.Profile,
 			Status:    user.Status,
 			Premium:   user.IsPremium,
+			Gender:    userv1.GENDER(userv1.GENDER_value[user.Gender]),
 		},
 	}
 }
