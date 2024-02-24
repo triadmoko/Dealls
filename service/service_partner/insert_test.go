@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-func TestAllCaseLogin(t *testing.T) {
+func TestAllCaseSwipePartner(t *testing.T) {
 	for scenario, fn := range map[string]func(t *testing.T){
 		"Success SwipePartner": testServicePartnerSwipePartner_Success,
 	} {
@@ -50,6 +50,7 @@ func testServicePartnerSwipePartner_Success(t *testing.T) {
 	res, err := svc.SwipePartner(ctx, req)
 	assert.NotNil(t, res)
 	assert.NoError(t, err)
+	assert.Equal(t, expectedRes.InterestUserID, res.Msg.PartnerId)
+	assert.Equal(t, expectedRes.IsInterest, res.Msg.IsInterest)
 	mockRepoUser.AssertExpectations(t)
-
 }

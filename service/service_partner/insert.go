@@ -25,7 +25,7 @@ func (s *ServicePartner) SwipePartner(ctx context.Context, req *connect.Request[
 
 	return &connect.Response[partnerv1.ResponseSwipePartner]{
 		Msg: &partnerv1.ResponseSwipePartner{
-			PartnerId:  result.ID,
+			PartnerId:  result.InterestUserID,
 			IsInterest: result.IsInterest,
 		},
 	}, nil
