@@ -50,7 +50,7 @@ Backend system for a simple dating app. The system is built using Golang and Pos
   ```
 - Connect your database and Run the migration
   ```bash
-      make migration-up version=1
+  make migration-up version=1
   ```
 
 ## How to Run Test
