@@ -30,11 +30,14 @@ func (s *ServicePartner) SearchPartner(ctx context.Context, req *connect.Request
 	notUser, err := s.repoPartner.ListPartnerSwipe(model.FilterInterest{
 		UserID: user.ID,
 	})
+	notUser = append(notUser, user.ID)
 	if err != nil {
 		s.logger.Error("s.repoPartner.ListPartnerSwipe", err)
 		return nil, connect.NewError(connect.CodeInternal, constant.ErrInternalServer)
 	}
-
+	if !user.IsPremium && len(notUser) >= 10 {
+		return nil, connect.NewError(connect.CodeInvalidArgument, constant.ErrNotPremium)
+	}
 	pagination := pkg.PaginationBuilder(int(req.Msg.PerPage), int(req.Msg.Page))
 	filter := model.FilterInterest{
 		UserID:         user.ID,
