@@ -20,3 +20,16 @@ message User {
   string status = 8;
   bool is_premium = 9;   
 }
+
+message PurchaseRequest {
+  int32 payment_amount = 6;
+}
+
+message PurchaseResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+service ServiceUser {
+  rpc PurchasePremium(PurchaseRequest) returns (PurchaseResponse);
+}

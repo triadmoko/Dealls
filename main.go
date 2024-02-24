@@ -14,5 +14,6 @@ func main() {
 	router := routers.NewRouter(conf)
 	router.RouterAuth()
 	router.RouterPartner()
+	router.RouterUser()
 	router.Run()
 }

@@ -11,4 +11,5 @@ type RepositoryUser interface {
 	Create(ctx context.Context, user model.User) (model.User, error)
 	DetailByUsername(ctx context.Context, username string) (model.User, error)
 	SearchPartner(filter model.FilterInterest) ([]model.User, int, error)
+	UpdatePurchasePremium(ctx context.Context, userID string, premium bool) error
 }

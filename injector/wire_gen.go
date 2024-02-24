@@ -13,6 +13,7 @@ import (
 	"app/repository/repo_user"
 	"app/service/service_auth"
 	"app/service/service_partner"
+	"app/service/service_user"
 	"github.com/google/wire"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
@@ -43,18 +44,27 @@ func InitializedPartner(db *gorm.DB, logger *logrus.Logger) *service_partner.Ser
 	return servicePartner
 }
 
-// injector_auth.go:
+// Injectors from injector_user.go:
 
-var newSetUserRepository = wire.NewSet(repo_user.NewRepository, wire.Bind(
-	new(domain.RepositoryUser),
-	new(*repo_user.Repository),
-),
-)
+// InitializedUser is a function to initialize user service
+func InitializedUser(logger *logrus.Logger, db *gorm.DB) *service_user.ServiceUser {
+	repository := repo_user.NewRepository(db)
+	serviceUser := service_user.NewService(logger, repository)
+	return serviceUser
+}
 
 // injector_partner.go:
 
 var newSetInterestRepository = wire.NewSet(repo_interest.NewRepository, wire.Bind(
 	new(domain.RepositoryInterest),
 	new(*repo_interest.Repository),
+),
+)
+
+// injector_user.go:
+
+var newSetUserRepository = wire.NewSet(repo_user.NewRepository, wire.Bind(
+	new(domain.RepositoryUser),
+	new(*repo_user.Repository),
 ),
 )

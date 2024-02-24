@@ -136,6 +136,24 @@ func (_m *RepositoryUser) SearchPartner(filter model.FilterInterest) ([]model.Us
 	return r0, r1, r2
 }
 
+// UpdatePurchasePremium provides a mock function with given fields: ctx, userID, premium
+func (_m *RepositoryUser) UpdatePurchasePremium(ctx context.Context, userID string, premium bool) error {
+	ret := _m.Called(ctx, userID, premium)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdatePurchasePremium")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, bool) error); ok {
+		r0 = rf(ctx, userID, premium)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // NewRepositoryUser creates a new instance of RepositoryUser. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewRepositoryUser(t interface {
