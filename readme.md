@@ -12,6 +12,7 @@ Backend system for a simple dating app. The system is built using Golang and Pos
 - Golang Migrate
 - Golang Mockery
 - Buf Protoc
+- Golang Google Wire
 
 ## Tech Stack
 
